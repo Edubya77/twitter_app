@@ -60,67 +60,29 @@ def coordinates():
     json_data = json.dumps(x)
     return render_template("coordinates.html", json_data=json_data)
 
-@app.route("/created_at_day_api")
-def created_at_day_api():
+@app.route("/created_at_api")
+def created_at_api():
     x = []
     x2 = []
-    day_clean = []
+    date_clean = []
     created_at = session.query(Tweet.created_at)
     for i in created_at:
         x.append(i)
     for i in created_at:
         x2.append(i[0])
     for i in x2:
-        day_clean.append(datetime.datetime.strptime(i, "%a  %b %d %H:%M:%S %z %Y").day)
+        date_clean.append(datetime.datetime.strptime(i, "%a  %b %d %H:%M:%S %z %Y").strftime("%b %d %Y"))
     #count them up
-    day_counter = Counter(day_clean)
+    date_counter = Counter(date_clean)
     #build the chart values for day
-    chart_values_day = [{"y": value, "x": key} for key, value in day_counter.items()]
-    chart_values_day.sort(key=lambda i: i["x"])
-    print(chart_values_day)
-    data = [{"yAxis": "1","values": chart_values_day, "key": "Day of the Week"}]
-    return Response(json.dumps(data), 201, mimetype="application/json")
-
-@app.route("/created_at_month_api")
-def created_at_month_api():
-    x = []
-    x2 = []
-    month_clean = []
-    created_at = session.query(Tweet.created_at)
-    for i in created_at:
-        x.append(i)
-    for i in created_at:
-        x2.append(i[0])
-    # break out the individual time unites
-    for i in x2:
-        month_clean.append(datetime.datetime.strptime(i, "%a  %b %d %H:%M:%S %z %Y").month)
-    month_counter = Counter(month_clean)
-    #build the chart values for month
-    chart_values_month = [{"y": value, "x": key} for key, value in month_counter.items()]
-    chart_values_month.sort(key=lambda i: i["x"])
-    print(chart_values_month)
-    data = [{"yAxis": "1","values": chart_values_month, "key": "Month"}]
-    return Response(json.dumps(data), 201, mimetype="application/json")
-    
-@app.route("/created_at_year_api")
-def created_at_year_api():
-    x = []
-    x2 = []
-    year_clean = []
-    created_at = session.query(Tweet.created_at)
-    for i in created_at:
-        x.append(i)
-    for i in created_at:
-        x2.append(i[0])
-    # break out the individual time unites
-    for i in x2:
-        year_clean.append(datetime.datetime.strptime(i, "%a  %b %d %H:%M:%S %z %Y").year)
-    #count them up
-    year_counter = Counter(year_clean)
-    chart_values_year = [{"y": value, "x": key} for key, value in year_counter.items()]
-    chart_values_year.sort(key=lambda i: i["x"])
-    print(chart_values_year)
-    data = [{"yAxis": "1","values": chart_values_year, "key": "Year"}]
+    chart_values_date = []
+    counter = 0
+    for key, value in date_counter.items():
+        chart_values_date.append({"y": value, "x": key})
+        counter += 1
+    chart_values_date.sort(key=lambda i: datetime.datetime.strptime(i["x"], "%b %d %Y"))
+    print(chart_values_date)
+    data = [{"yAxis": "1","values": chart_values_date, "key": "Date"}]
     return Response(json.dumps(data), 201, mimetype="application/json")
     
 @app.route("/created_at")

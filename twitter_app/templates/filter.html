@@ -21,9 +21,11 @@
             <th>Hashtag</th>
         </tr>
     </thead>
+    <tbody>
     {% for i, lang, ulang, faves in values %}
     {{ macros.render_text(i, lang, ulang, faves) }}
     {% endfor %}
+    </tbody>
 </table>
 <script>
 var filtersConfig = {
