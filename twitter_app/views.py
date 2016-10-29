@@ -128,10 +128,20 @@ def filter():
     tweet_language_test = []
     user_language_test = []
     favorite_count_test = []
+    location_test = []
+    coordinates_test = []
+    created_at_test = []
+    favorites_test = []
+    retweet_count_test = []
     text = session.query(Tweet.text).order_by(Tweet.id).all()
     tweet_language = session.query(Tweet.tweet_lang).order_by(Tweet.id).all()
     user_language = session.query(Tweet.user_lang).order_by(Tweet.id).all()
     favorite_count = session.query(Tweet.favorite_count).order_by(Tweet.id).all()
+    location = session.query(Tweet.location).order_by(Tweet.id).all()
+    coordinates = session.query(Tweet.coordinates).order_by(Tweet.id).all()
+    created_at = session.query(Tweet.created_at).order_by(Tweet.id).all()
+    favorites = session.query(Tweet.favorite_count).order_by(Tweet.id).all()
+    retweet_count = session.query(Tweet.retweet_count).order_by(Tweet.id).all()
     for i in text:
         x.append(i[0])
     for i in tweet_language:
@@ -140,7 +150,17 @@ def filter():
         user_language_test.append(i[0])
     for i in favorite_count:
         favorite_count_test.append(i[0])
-    return render_template("filter.html", values=zip(x, tweet_language_test, user_language_test, favorite_count_test))
+    for i in location:
+        location_test.append(i[0])
+    for i in coordinates:
+        coordinates_test.append(i[0])
+    for i in created_at:
+        created_at_test.append(i[0])
+    for i in favorites:
+        favorites_test.append(i[0])
+    for i in retweet_count:
+        retweet_count_test.append(i[0])
+    return render_template("filter.html", values=zip(x, tweet_language_test, user_language_test, favorite_count_test, location_test, coordinates_test, created_at_test, favorites_test, retweet_count_test))
 
 @app.route("/text")
 def text():

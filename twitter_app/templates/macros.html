@@ -1,14 +1,14 @@
-{% macro render_text(i, lang, ulang, faves) %}
+{% macro render_text(i, lang, ulang, faves, locs, coords, cat, ft, rct) %}
         <tr>
-            <td>Misc</td>
+            <td>{{locs}}</td>
             <td>{{ulang}}</td>
-            <td>1998</td>
-            <td>5950.33</td>
+            <td>{{coords}}</td>
+            <td>{{cat}}</td>
             <td>{{faves}}</td>
             <td>{{lang}}</td>
-            <td>1178.46</td>
+            <td>{{ft}}</td>
             <td>{{i}}</td>
-            <td>7.55</td>
+            <td>{{rct}}</td>
         </tr>
 {% endmacro %}
 

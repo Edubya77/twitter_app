@@ -3,7 +3,7 @@
 {% block content %}
 <head>
     <!--table filter-->
-    <script src="node_modules/tablefilter/dist/tablefilter/tablefilter.js"></script>
+    <script src="/workspace/thinkful/projects/twitter_app/TableFilter-master/dist/tablefilter/tablefilter.js"></script>
 </head>
 <h1>Tweet Database</h1>
 
@@ -22,11 +22,17 @@
         </tr>
     </thead>
     <tbody>
-    {% for i, lang, ulang, faves in values %}
-    {{ macros.render_text(i, lang, ulang, faves) }}
+    {% for i, lang, ulang, faves, locs, coords, cat, ft, rct in values %}
+    {{ macros.render_text(i, lang, ulang, faves, locs, coords, cat, ft, rct) }}
     {% endfor %}
     </tbody>
 </table>
+<script>
+var tf = new TableFilter(document.querySelector('.demo'), {
+    base_path: '/workspace/thinkful/projects/twitter_app/TableFilter-master/dist/tablefilter/'
+});
+tf.init();
+</script>
 <script>
 var filtersConfig = {
   base_path: '',
@@ -75,6 +81,11 @@ var filtersConfig = {
 var tf = new TableFilter('demo', filtersConfig);
 tf.init();
 </script>
+
+
+
+
+
 
 </body>
 </html>
